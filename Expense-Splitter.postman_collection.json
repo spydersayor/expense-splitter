@@ -1,0 +1,109 @@
+{
+  "info": {
+    "name": "Expense Splitter API",
+    "_postman_id": "12345678-aaaa-bbbb-cccc-1234567890ab",
+    "description": "Postman collection for Expense Splitter Spring Boot backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth - Register",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Aman\",\n  \"email\": \"aman@example.com\",\n  \"password\": \"123456\"\n}"
+        },
+        "url": { "raw": "http://localhost:8080/api/auth/register", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "auth", "register"] }
+      }
+    },
+    {
+      "name": "Auth - Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"aman@example.com\",\n  \"password\": \"123456\"\n}"
+        },
+        "url": { "raw": "http://localhost:8080/api/auth/login", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "auth", "login"] }
+      }
+    },
+    {
+      "name": "Groups - Create Group",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Trip Goa\"\n}"
+        },
+        "url": { "raw": "http://localhost:8080/api/groups", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "groups"] }
+      }
+    },
+    {
+      "name": "Groups - Add Member",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": { "raw": "http://localhost:8080/api/groups/1/members?email=friend@example.com", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "groups", "1", "members"], "query": [{ "key": "email", "value": "friend@example.com" }] }
+      }
+    },
+    {
+      "name": "Expenses - Add Expense",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"groupId\": 1,\n  \"paidById\": 1,\n  \"amount\": 1200.00,\n  \"description\": \"Dinner at Baga Beach\",\n  \"spentAt\": \"2025-02-07\",\n  \"shares\": [\n    {\"userId\": 1, \"shareAmount\": 400.00},\n    {\"userId\": 2, \"shareAmount\": 400.00},\n    {\"userId\": 3, \"shareAmount\": 400.00}\n  ]\n}"
+        },
+        "url": { "raw": "http://localhost:8080/api/expenses", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "expenses"] }
+      }
+    },
+    {
+      "name": "Balances - Get Group Balances",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": { "raw": "http://localhost:8080/api/balances/1", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "balances", "1"] }
+      }
+    },
+    {
+      "name": "Settlements - Add Settlement",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"group\": {\"id\": 1},\n  \"fromUser\": {\"id\": 2},\n  \"toUser\": {\"id\": 1},\n  \"amount\": 400.00,\n  \"note\": \"Paid my share\"\n}"
+        },
+        "url": { "raw": "http://localhost:8080/api/settlements", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["api", "settlements"] }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "token",
+      "value": ""
+    }
+  ]
+}

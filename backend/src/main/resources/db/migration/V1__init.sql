@@ -1,0 +1,47 @@
+CREATE TABLE users (
+  id BIGSERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) UNIQUE NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE groups (
+  id BIGSERIAL PRIMARY KEY,
+  name VARCHAR(120) NOT NULL,
+  created_by BIGINT NOT NULL REFERENCES users(id),
+  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE group_members (
+  group_id BIGINT REFERENCES groups(id) ON DELETE CASCADE,
+  user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
+  PRIMARY KEY (group_id, user_id)
+);
+
+CREATE TABLE expenses (
+  id BIGSERIAL PRIMARY KEY,
+  group_id BIGINT NOT NULL REFERENCES groups(id) ON DELETE CASCADE,
+  paid_by BIGINT NOT NULL REFERENCES users(id),
+  amount NUMERIC(12,2) NOT NULL,
+  description VARCHAR(255),
+  spent_at DATE NOT NULL DEFAULT CURRENT_DATE,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE expense_shares (
+  id BIGSERIAL PRIMARY KEY,
+  expense_id BIGINT NOT NULL REFERENCES expenses(id) ON DELETE CASCADE,
+  user_id BIGINT NOT NULL REFERENCES users(id),
+  share_amount NUMERIC(12,2) NOT NULL
+);
+
+CREATE TABLE settlements (
+  id BIGSERIAL PRIMARY KEY,
+  group_id BIGINT NOT NULL REFERENCES groups(id) ON DELETE CASCADE,
+  from_user BIGINT NOT NULL REFERENCES users(id),
+  to_user BIGINT NOT NULL REFERENCES users(id),
+  amount NUMERIC(12,2) NOT NULL,
+  settled_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  note VARCHAR(255)
+);

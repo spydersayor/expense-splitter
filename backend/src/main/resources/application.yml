@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/esplit
+    username: esplit
+    password: esplit
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc.time_zone: UTC
+    open-in-view: false
+
+  flyway:
+    enabled: true
+
+  web:
+    cors:
+      allowed-origin-patterns: "http://localhost:5173"
+      allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
+      allowed-headers: "*"
+      allow-credentials: true
+
+jwt:
+  secret: ${JWT_SECRET:ThisIsA256BitSecretKey_ChangeThisToYourOwnRandomLongKey123456}
+  expirationMillis: 3600000
