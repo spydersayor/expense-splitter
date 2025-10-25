@@ -77,15 +77,21 @@ export function AddExpenseForm({ groupId, group, isOpen, onToggle, onSuccess }: 
   };
 
   const onSubmit = async (data: ExpenseFormData) => {
-    await addExpense.mutateAsync({
-      groupId,
-      description: data.description,
-      amount: data.amount,
-      paidByUserId: data.paidByUserId,
-      shares: data.shares,
-    });
-    reset();
-    onSuccess();
+    try {
+      console.log('Submitting expense:', data);
+      console.log('Form errors:', errors);
+      await addExpense.mutateAsync({
+        groupId,
+        description: data.description,
+        amount: data.amount,
+        paidByUserId: data.paidByUserId,
+        shares: data.shares,
+      });
+      reset();
+      onSuccess();
+    } catch (error) {
+      console.error('Form submission error:', error);
+    }
   };
 
   return (
@@ -161,12 +167,31 @@ export function AddExpenseForm({ groupId, group, isOpen, onToggle, onSuccess }: 
                 )}
               </div>
             )}
+            
+            {/* Debug: Show all validation errors */}
+            {Object.keys(errors).length > 0 && (
+              <div className="p-3 bg-red-50 border border-red-200 rounded">
+                <p className="text-sm font-medium text-red-800 mb-2">Validation Errors:</p>
+                <pre className="text-xs text-red-600">{JSON.stringify(errors, null, 2)}</pre>
+              </div>
+            )}
 
+            {errors.root && (
+              <p className="text-sm text-red-600">{errors.root.message}</p>
+            )}
+            
             <div className="flex justify-end space-x-2">
               <Button type="button" variant="secondary" onClick={onToggle}>
                 Cancel
               </Button>
-              <Button type="submit" loading={addExpense.isPending}>
+              <Button 
+                type="submit" 
+                loading={addExpense.isPending}
+                onClick={() => {
+                  console.log('Button clicked, form errors:', errors);
+                  console.log('Form values:', watch());
+                }}
+              >
                 Add Expense
               </Button>
             </div>
