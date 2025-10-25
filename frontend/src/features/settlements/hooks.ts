@@ -8,21 +8,36 @@ export function useSettlements(groupId: string) {
   return useQuery({
     queryKey: ['settlements', groupId],
     queryFn: async () => {
-      const response = await axios.get<Settlement[]>('/api/settlements', {
-        params: { groupId },
-      });
+      const response = await axios.get<Settlement[]>(`/api/settlements/${groupId}`);
       return response.data;
     },
     enabled: !!groupId,
   });
 }
 
+interface CreateSettlementData {
+  groupId: string;
+  fromUserId: string;
+  toUserId: string;
+  amount: number;
+  note?: string;
+}
+
 export function useAddSettlement() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (settlement: Omit<Settlement, 'id' | 'createdAt'>) => {
-      const response = await axios.post<Settlement>('/api/settlements', settlement);
+    mutationFn: async (settlement: CreateSettlementData) => {
+      // Transform frontend data to backend format
+      const backendRequest = {
+        groupId: parseInt(settlement.groupId),
+        fromUserId: parseInt(settlement.fromUserId),
+        toUserId: parseInt(settlement.toUserId),
+        amount: settlement.amount,
+        note: settlement.note || '',
+      };
+      
+      const response = await axios.post('/api/settlements', backendRequest);
       return response.data;
     },
     onSuccess: (_, variables) => {

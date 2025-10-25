@@ -26,7 +26,7 @@ export const addExpenseSchema = z.object({
   shares: z.array(
     z.object({
       userId: z.string(),
-      amount: z.number().positive(),
+      amount: z.number().nonnegative(),
     })
   ).min(1, 'At least one share is required'),
 }).refine(
