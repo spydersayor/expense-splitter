@@ -40,6 +40,13 @@ public class GroupController {
         return groupRepo.findAllWithMembers().stream().map(this::toGroupDto).toList();
     }
 
+    @GetMapping("/{groupId}")
+    public GroupDto getGroup(@PathVariable Long groupId) {
+        GroupEntity group = groupRepo.findByIdWithMembers(groupId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Group not found"));
+        return toGroupDto(group);
+    }
+
     @PostMapping
     public GroupDto createGroup(@RequestBody GroupEntity g,
                                    @AuthenticationPrincipal UserDetails principal) {

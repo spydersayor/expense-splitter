@@ -8,21 +8,40 @@ export function useExpenses(groupId: string) {
   return useQuery({
     queryKey: ['expenses', groupId],
     queryFn: async () => {
-      const response = await axios.get<Expense[]>('/api/expenses', {
-        params: { groupId },
-      });
+      const response = await axios.get<Expense[]>(`/api/expenses/${groupId}`);
       return response.data;
     },
     enabled: !!groupId,
   });
 }
 
+interface CreateExpenseData {
+  groupId: string;
+  description: string;
+  amount: number;
+  paidByUserId: string;
+  shares: { userId: string; amount: number }[];
+}
+
 export function useAddExpense() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (expense: Omit<Expense, 'id' | 'createdAt'>) => {
-      const response = await axios.post<Expense>('/api/expenses', expense);
+    mutationFn: async (expense: CreateExpenseData) => {
+      // Transform frontend data to backend format
+      const backendRequest = {
+        groupId: parseInt(expense.groupId),
+        paidById: parseInt(expense.paidByUserId),
+        amount: expense.amount,
+        description: expense.description,
+        spentAt: new Date().toISOString().split('T')[0], // Today's date
+        shares: expense.shares.map(share => ({
+          userId: parseInt(share.userId),
+          shareAmount: share.amount,
+        }))
+      };
+      
+      const response = await axios.post('/api/expenses', backendRequest);
       return response.data;
     },
     onSuccess: (_, variables) => {

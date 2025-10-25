@@ -38,7 +38,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String token = authHeader.substring(7);
         String tokenPrefix = token.length() > 8 ? token.substring(0, 8) + "..." : token;
-        String username = jwtService.extractUsername(token);
+        
+        String username;
+        try {
+            username = jwtService.extractUsername(token);
+        } catch (Exception e) {
+            log.warn("Invalid JWT token format for path={} method={}, error: {}", request.getRequestURI(), request.getMethod(), e.getMessage());
+            chain.doFilter(request, response);
+            return;
+        }
         log.info("Found Bearer token prefix='{}' for path={} method={}", tokenPrefix, request.getRequestURI(), request.getMethod());
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
