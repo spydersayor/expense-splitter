@@ -4,12 +4,37 @@ import { Group } from '../../types';
 import toast from 'react-hot-toast';
 import { getErrorMessage } from '../../lib/utils';
 
+interface BackendGroup {
+  id: number;
+  name: string;
+  members: Array<{
+    id: number;
+    name?: string;
+    email: string;
+  }>;
+  createdAt?: string;
+}
+
+function transformGroupFromBackend(backendGroup: BackendGroup): Group {
+  return {
+    id: backendGroup.id.toString(),
+    name: backendGroup.name,
+    members: backendGroup.members.map(m => ({
+      id: m.id.toString(),
+      name: m.name,
+      email: m.email,
+    })),
+    createdAt: backendGroup.createdAt,
+  };
+}
+
 export function useGroups() {
   return useQuery({
     queryKey: ['groups'],
     queryFn: async () => {
-      const response = await axios.get<Group[]>('/api/groups');
-      return response.data;
+      const response = await axios.get<BackendGroup[]>('/api/groups');
+      console.log('Groups fetched from backend:', response.data);
+      return response.data.map(transformGroupFromBackend);
     },
   });
 }
@@ -18,8 +43,10 @@ export function useGroup(groupId: string) {
   return useQuery({
     queryKey: ['group', groupId],
     queryFn: async () => {
-      const response = await axios.get<Group>(`/api/groups/${groupId}`);
-      return response.data;
+      console.log('Fetching group with ID:', groupId);
+      const response = await axios.get<BackendGroup>(`/api/groups/${groupId}`);
+      console.log('Group fetched from backend:', response.data);
+      return transformGroupFromBackend(response.data);
     },
     enabled: !!groupId,
   });
@@ -30,8 +57,8 @@ export function useCreateGroup() {
 
   return useMutation({
     mutationFn: async (name: string) => {
-      const response = await axios.post<Group>('/api/groups', { name });
-      return response.data;
+      const response = await axios.post<BackendGroup>('/api/groups', { name });
+      return transformGroupFromBackend(response.data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['groups'] });
@@ -48,8 +75,8 @@ export function useAddMember() {
 
   return useMutation({
     mutationFn: async ({ groupId, email }: { groupId: string; email: string }) => {
-      const response = await axios.post<Group>(`/api/groups/${groupId}/members`, { email });
-      return response.data;
+      const response = await axios.post<BackendGroup>(`/api/groups/${groupId}/members`, { email });
+      return transformGroupFromBackend(response.data);
     },
     onSuccess: (_, variables) => {
       // Invalidate both the specific group and the groups list
