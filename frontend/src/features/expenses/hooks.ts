@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from '../../lib/axios';
 import { Expense } from '../../types';
 import toast from 'react-hot-toast';
+import { getErrorMessage } from '../../lib/utils';
 
 export function useExpenses(groupId: string) {
   return useQuery({
@@ -29,8 +30,8 @@ export function useAddExpense() {
       queryClient.invalidateQueries({ queryKey: ['balances', variables.groupId] });
       toast.success('Expense added successfully');
     },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.message || 'Failed to add expense');
+    onError: (error: unknown) => {
+      toast.error(getErrorMessage(error) || 'Failed to add expense');
     },
   });
 }

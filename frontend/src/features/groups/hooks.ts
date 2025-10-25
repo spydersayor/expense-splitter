@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from '../../lib/axios';
 import { Group } from '../../types';
 import toast from 'react-hot-toast';
+import { getErrorMessage } from '../../lib/utils';
 
 export function useGroups() {
   return useQuery({
@@ -36,8 +37,8 @@ export function useCreateGroup() {
       queryClient.invalidateQueries({ queryKey: ['groups'] });
       toast.success('Group created successfully');
     },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.message || 'Failed to create group');
+    onError: (error: unknown) => {
+      toast.error(getErrorMessage(error) || 'Failed to create group');
     },
   });
 }
@@ -54,8 +55,8 @@ export function useAddMember() {
       queryClient.invalidateQueries({ queryKey: ['group', variables.groupId] });
       toast.success('Member added successfully');
     },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.message || 'Failed to add member');
+    onError: (error: unknown) => {
+      toast.error(getErrorMessage(error) || 'Failed to add member');
     },
   });
 }

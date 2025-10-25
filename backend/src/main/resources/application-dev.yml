@@ -3,21 +3,28 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/esplit
-    username: esplit
-    password: esplit
-
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create-drop
     properties:
       hibernate:
         format_sql: true
         jdbc.time_zone: UTC
     open-in-view: false
+    show-sql: true
 
   flyway:
-    enabled: true
+    enabled: false  # Disable flyway for H2 development
 
   web:
     cors:
@@ -29,3 +36,8 @@ spring:
 jwt:
   secret: ${JWT_SECRET:ThisIsA256BitSecretKey_ChangeThisToYourOwnRandomLongKey123456}
   expirationMillis: 3600000
+
+logging:
+  level:
+    com.esplit.backend: DEBUG
+    org.springframework.security: DEBUG

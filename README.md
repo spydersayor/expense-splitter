@@ -1,227 +1,322 @@
 # 💰 Expense Splitter
 
-A modern, full-stack web application for splitting expenses among groups of people. Built with React, TypeScript, Spring Boot, and PostgreSQL.
+A full-stack expense splitting application built with React, Spring Boot, and PostgreSQL. Split expenses with friends and family easily!
+
+![Expense Splitter](https://img.shields.io/badge/React-18.3.1-blue) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.5-green) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue) ![Docker](https://img.shields.io/badge/Docker-Ready-blue)
+
+## 🚀 Quick Start
+
+### Single Command Setup
+
+**Windows:**
+```bash
+start.bat
+```
+
+**Linux/Mac:**
+```bash
+chmod +x start.sh
+./start.sh
+```
+
+That's it! The application will be available at:
+- **Frontend:** http://localhost:3000
+- **Backend API:** http://localhost:8080
+- **Database:** localhost:5432
+- **PgAdmin:** http://localhost:5050
+
+## 🌐 Live Demo
+
+- **Frontend:** [https://expense-splitter.vercel.app](https://expense-splitter.vercel.app)
+- **Backend API:** [https://expense-splitter-backend.railway.app](https://expense-splitter-backend.railway.app)
 
 ## ✨ Features
 
-- 🔐 **User Authentication** - Secure registration and login
+- 🔐 **Secure Authentication** - JWT-based auth with password hashing
 - 👥 **Group Management** - Create and manage expense groups
-- 💸 **Expense Tracking** - Add, edit, and categorize expenses
-- 📊 **Balance Calculation** - Automatic calculation of who owes what
-- 🏦 **Settlement Tracking** - Record payments and settlements
-- 🌙 **Dark Mode** - Modern UI with light/dark theme support
+- 💸 **Expense Tracking** - Add and split expenses among group members
+- ⚖️ **Balance Calculation** - Automatic balance calculation and settlement suggestions
 - 📱 **Responsive Design** - Works on desktop and mobile devices
-- 🎨 **Modern UI** - Glass-morphism design with smooth animations
+- 🔄 **Real-time Updates** - Live updates with React Query
+- 🛡️ **Input Validation** - Comprehensive form validation
+- 🐳 **Docker Ready** - Easy deployment with Docker Compose
+
+## 🏗️ Architecture
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   React Frontend │    │  Spring Boot    │    │   PostgreSQL    │
+│   (Port 3000)   │◄──►│   (Port 8080)   │◄──►│   (Port 5432)   │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **React 18** with TypeScript
-- **Vite** for fast development and building
-- **Tailwind CSS** for modern styling
-- **React Query** for data fetching and caching
-- **React Hook Form** with Zod validation
-- **React Router** for navigation
-- **Lucide React** for icons
+- **React 18** - Modern React with hooks
+- **TypeScript** - Type-safe development
+- **Vite** - Fast build tool
+- **Tailwind CSS** - Utility-first CSS framework
+- **React Query** - Data fetching and caching
+- **React Hook Form** - Form management
+- **Zod** - Schema validation
+- **Axios** - HTTP client
 
 ### Backend
-- **Spring Boot 3.2** with Java 17
-- **Spring Security** with JWT authentication
-- **Spring Data JPA** for database operations
-- **PostgreSQL** database
-- **Flyway** for database migrations
-- **Lombok** for reduced boilerplate
+- **Spring Boot 3.2.5** - Java framework
+- **Spring Security** - Authentication and authorization
+- **Spring Data JPA** - Data persistence
+- **PostgreSQL** - Database
+- **Flyway** - Database migrations
+- **JWT** - Token-based authentication
+- **Lombok** - Boilerplate reduction
 
 ### DevOps
-- **Docker & Docker Compose** for containerization
-- **Maven** for dependency management
-- **ESLint** for code quality
-- **GitHub Actions** ready
+- **Docker** - Containerization
+- **GitHub Actions** - CI/CD
+- **Vercel** - Frontend hosting
+- **Railway** - Backend hosting
 
-## 🚀 Quick Start
+## 📦 Installation
 
 ### Prerequisites
-- Node.js 18+ and npm
-- Java 17+
-- PostgreSQL 16+ (or use Docker)
-- Git
+- Docker and Docker Compose
+- Node.js 18+ (for local development)
+- Java 17+ (for local development)
+- Maven 3.6+ (for local development)
 
-### Development Setup
+### Local Development
 
-1. **Clone the repository**
+1. **Clone the repository:**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/yourusername/expense-splitter.git
    cd expense-splitter
    ```
 
-2. **Start with Docker Compose (Recommended)**
+2. **Start the application:**
    ```bash
-   docker-compose up -d
-   ```
-   This starts all services: frontend (port 3000), backend (port 8080), database (port 5432), and pgAdmin (port 5050).
-
-3. **Manual Setup**
+   # Windows
+   start.bat
    
-   **Backend:**
+   # Linux/Mac
+   chmod +x start.sh
+   ./start.sh
+   ```
+
+3. **Access the application:**
+   - Frontend: http://localhost:3000
+   - Backend: http://localhost:8080
+   - Database: localhost:5432
+
+### Manual Setup
+
+<details>
+<summary>Click to expand manual setup instructions</summary>
+
+#### Backend Setup
+
+1. **Database Setup:**
+   ```bash
+   createdb expense_splitter
+   ```
+
+2. **Environment Variables:**
+   ```bash
+   export DATABASE_URL="jdbc:postgresql://localhost:5432/expense_splitter"
+   export DATABASE_USERNAME="postgres"
+   export DATABASE_PASSWORD="your_password"
+   export JWT_SECRET="your-secret-key-here"
+   export JWT_EXPIRATION="86400000"
+   export CORS_ORIGINS="http://localhost:3000,http://localhost:5173"
+   ```
+
+3. **Run Backend:**
    ```bash
    cd backend
    ./mvnw spring-boot:run
    ```
-   
-   **Frontend:**
+
+#### Frontend Setup
+
+1. **Environment Variables:**
+   ```bash
+   echo "VITE_BASE_URL=http://localhost:8080" > frontend/.env
+   ```
+
+2. **Install and Run:**
    ```bash
    cd frontend
    npm install
    npm run dev
    ```
 
-### Production Build
+</details>
 
-**Windows (PowerShell):**
-```powershell
-./run-prod.ps1
+## 🚀 Deployment
+
+### Automated Deployment
+
+The application is automatically deployed when you push to the `main` branch:
+
+1. **Frontend** → Vercel
+2. **Backend** → Railway
+3. **Database** → Railway PostgreSQL
+
+### Manual Deployment
+
+#### Deploy Frontend to Vercel
+
+1. Install Vercel CLI:
+   ```bash
+   npm i -g vercel
+   ```
+
+2. Deploy:
+   ```bash
+   cd frontend
+   vercel --prod
+   ```
+
+3. Set environment variables in Vercel dashboard:
+   - `VITE_BASE_URL` → Your backend URL
+
+#### Deploy Backend to Railway
+
+1. Install Railway CLI:
+   ```bash
+   npm install -g @railway/cli
+   ```
+
+2. Login and deploy:
+   ```bash
+   railway login
+   railway link
+   railway up
+   ```
+
+3. Set environment variables in Railway dashboard:
+   - `DATABASE_URL` → PostgreSQL connection string
+   - `JWT_SECRET` → Random secret key
+   - `CORS_ORIGINS` → Your frontend URL
+
+## 🔧 Configuration
+
+### Environment Variables
+
+#### Frontend (.env)
+```env
+VITE_BASE_URL=http://localhost:8080
+VITE_APP_NAME=Expense Splitter
+VITE_APP_VERSION=1.0.0
 ```
 
-**Linux/macOS:**
-```bash
-./run-prod.sh
+#### Backend (.env)
+```env
+DATABASE_URL=jdbc:postgresql://localhost:5432/expense_splitter
+DATABASE_USERNAME=postgres
+DATABASE_PASSWORD=postgres
+JWT_SECRET=your-secret-key-here
+JWT_EXPIRATION=86400000
+CORS_ORIGINS=http://localhost:3000,http://localhost:5173
 ```
 
-This builds the frontend, integrates it with the backend, and starts the production server.
-
-## 📁 Project Structure
-
-```
-expense-splitter/
-├── frontend/                 # React TypeScript frontend
-│   ├── src/
-│   │   ├── components/      # Reusable UI components
-│   │   ├── features/        # Feature-specific components
-│   │   ├── hooks/           # Custom React hooks
-│   │   ├── lib/             # Utilities and configuration
-│   │   └── types/           # TypeScript type definitions
-│   ├── package.json
-│   └── vite.config.ts
-├── backend/                  # Spring Boot backend
-│   ├── src/main/java/
-│   │   └── com/esplit/backend/
-│   │       ├── auth/        # Authentication logic
-│   │       ├── user/        # User management
-│   │       ├── group/       # Group and member management
-│   │       ├── expense/     # Expense tracking
-│   │       └── settlement/  # Settlement management
-│   └── pom.xml
-├── docker-compose.yml        # Multi-container setup
-├── run-prod.sh              # Linux/macOS production script
-├── run-prod.ps1             # Windows PowerShell production script
-└── README.md
-```
-
-## 🎨 UI Features
-
-- **Glass-morphism Design** - Modern frosted glass effect
-- **Smooth Animations** - Micro-interactions and transitions
-- **Responsive Layout** - Mobile-first design approach
-- **Dark/Light Theme** - System preference aware
-- **Loading States** - Skeleton loaders and spinners
-- **Error Handling** - User-friendly error messages
-
-## 🔐 API Endpoints
+## 📚 API Documentation
 
 ### Authentication
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - Login user
 
 ### Groups
-- `GET /api/groups` - List user's groups
+- `GET /api/groups` - Get all groups
 - `POST /api/groups` - Create new group
 - `POST /api/groups/{id}/members` - Add member to group
 
 ### Expenses
-- `GET /api/groups/{groupId}/expenses` - List group expenses
-- `POST /api/groups/{groupId}/expenses` - Add expense
+- `GET /api/expenses` - Get expenses
+- `POST /api/expenses` - Create expense
 - `PUT /api/expenses/{id}` - Update expense
 - `DELETE /api/expenses/{id}` - Delete expense
 
+### Balances
+- `GET /api/groups/{id}/balances` - Get group balances
+
 ### Settlements
-- `GET /api/groups/{groupId}/settlements` - List settlements
-- `POST /api/groups/{groupId}/settlements` - Record settlement
-
-## 🗄️ Database Schema
-
-The application uses PostgreSQL with the following main entities:
-- **Users** - User accounts and authentication
-- **Groups** - Expense sharing groups
-- **GroupMembers** - Many-to-many relationship between users and groups
-- **Expenses** - Individual expense records
-- **ExpenseShares** - How expenses are split among members
-- **Settlements** - Payment records between users
-
-## 🚀 Deployment
-
-### Docker Production
-```bash
-docker-compose -f docker-compose.prod.yml up -d
-```
-
-### Manual Deployment
-1. Build the frontend: `cd frontend && npm run build`
-2. Copy built files to backend static resources
-3. Build backend: `cd backend && ./mvnw clean package`
-4. Run: `java -jar backend/target/backend-0.0.1-SNAPSHOT.jar`
+- `GET /api/settlements` - Get settlements
+- `POST /api/settlements` - Create settlement
 
 ## 🧪 Testing
 
-**Frontend:**
 ```bash
+# Frontend tests
 cd frontend
-npm run test
-npm run lint
 npm run typecheck
-```
+npm run lint
+npm run build
 
-**Backend:**
-```bash
+# Backend tests
 cd backend
 ./mvnw test
+./mvnw package
+
+# Docker tests
+docker-compose up --build
 ```
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit your changes: `git commit -m 'Add amazing feature'`
-4. Push to the branch: `git push origin feature/amazing-feature`
-5. Open a Pull Request
+2. Create a feature branch: `git checkout -b feature-name`
+3. Commit changes: `git commit -am 'Add feature'`
+4. Push to branch: `git push origin feature-name`
+5. Submit a pull request
 
-## 📝 License
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👥 Authors
+## 🆘 Troubleshooting
 
-- **Your Name** - Initial work
+### Common Issues
+
+<details>
+<summary>Docker issues</summary>
+
+- **Port conflicts:** Ensure ports 3000, 8080, 5432, and 5050 are available
+- **Permission issues:** Run `chmod +x start.sh` on Linux/Mac
+- **Docker not running:** Start Docker Desktop
+
+</details>
+
+<details>
+<summary>Database issues</summary>
+
+- **Connection refused:** Ensure PostgreSQL is running
+- **Database not found:** Create database: `createdb expense_splitter`
+- **Migration errors:** Check Flyway configuration
+
+</details>
+
+<details>
+<summary>CORS issues</summary>
+
+- **Frontend can't connect:** Check CORS_ORIGINS environment variable
+- **API calls failing:** Verify VITE_BASE_URL is correct
+
+</details>
+
+## 📞 Support
+
+- 📧 Email: support@expense-splitter.com
+- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/expense-splitter/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/yourusername/expense-splitter/discussions)
 
 ## 🙏 Acknowledgments
 
-- React community for excellent libraries
-- Spring Boot team for the robust framework
-- Tailwind CSS for the utility-first approach
-- All open source contributors
+- React team for the amazing framework
+- Spring Boot team for the robust backend framework
+- Vercel and Railway for hosting services
+- All contributors and users
 
 ---
 
-### 📞 Support
-
-If you have any questions or run into issues, please open an issue on GitHub or contact the maintainers.
-
-### 🔄 Version History
-
-- **v1.0.0** - Initial release with full expense splitting functionality
-- Enhanced UI with glass-morphism design
-- Full integration between frontend and backend
-- Docker containerization support
-
----
-
-**Made with ❤️ using React, Spring Boot, and modern web technologies**
+Made with ❤️ by [Your Name](https://github.com/yourusername)

@@ -6,6 +6,8 @@ import com.esplit.backend.user.User;
 import com.esplit.backend.user.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -25,8 +27,10 @@ public class ExpenseController {
 
     @PostMapping
     public Expense createExpense(@RequestBody CreateExpenseRequest req) {
-        GroupEntity group = groupRepo.findById(req.getGroupId()).orElseThrow();
-        User paidBy = userRepo.findById(req.getPaidById()).orElseThrow();
+    GroupEntity group = groupRepo.findById(req.getGroupId())
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Group not found"));
+    User paidBy = userRepo.findById(req.getPaidById())
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
         Expense e = new Expense();
         e.setGroup(group);

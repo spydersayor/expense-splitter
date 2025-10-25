@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import axios from '../../lib/axios';
 import { User, AuthResponse, LoginCredentials, RegisterCredentials } from '../../types';
 import toast from 'react-hot-toast';
+import { getErrorMessage } from '../../lib/utils';
 import { queryClient } from '../../lib/queryClient';
 
 interface AuthContextType {
@@ -84,8 +85,8 @@ export function useLogin() {
       setAuth(data.user, data.token);
       toast.success('Logged in successfully');
     },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.message || 'Login failed');
+    onError: (error: unknown) => {
+      toast.error(getErrorMessage(error) || 'Login failed');
     },
   });
 }
@@ -102,8 +103,8 @@ export function useRegister() {
       setAuth(data.user, data.token);
       toast.success('Account created successfully');
     },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.message || 'Registration failed');
+    onError: (error: unknown) => {
+      toast.error(getErrorMessage(error) || 'Registration failed');
     },
   });
 }

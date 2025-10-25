@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from '../../lib/axios';
 import { Settlement } from '../../types';
 import toast from 'react-hot-toast';
+import { getErrorMessage } from '../../lib/utils';
 
 export function useSettlements(groupId: string) {
   return useQuery({
@@ -29,8 +30,8 @@ export function useAddSettlement() {
       queryClient.invalidateQueries({ queryKey: ['balances', variables.groupId] });
       toast.success('Settlement recorded successfully');
     },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.message || 'Failed to record settlement');
+    onError: (error: unknown) => {
+      toast.error(getErrorMessage(error) || 'Failed to record settlement');
     },
   });
 }
