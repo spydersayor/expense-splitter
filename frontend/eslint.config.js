@@ -25,5 +25,11 @@ export default tseslint.config(
       ],
       '@typescript-eslint/no-unused-expressions': 'off',
     },
+  },
+  {
+    files: ['src/features/auth/useAuth.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
   }
 );

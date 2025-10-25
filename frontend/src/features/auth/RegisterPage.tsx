@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useNavigate } from 'react-router-dom';
-import { useRegister } from './useAuth';
+import { useRegister } from './useRegister';
 import { registerSchema } from '../../lib/validators';
 import { RegisterCredentials } from '../../types';
 import { Input } from '../../components/ui/Input';

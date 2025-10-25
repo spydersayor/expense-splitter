@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth, useLogout } from '../features/auth/useAuth';
+import { useAuth } from '../features/auth/useAuth';
+import { useLogout } from '../features/auth/useLogout';
 import { useTheme } from '../hooks/useTheme';
 import { Button } from '../components/ui/Button';
 import { DollarSign, Moon, Sun, LogOut } from 'lucide-react';
