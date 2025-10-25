@@ -1,0 +1,27 @@
+{
+  "name": "expense-splitter",
+  "version": "1.0.0",
+  "description": "A full-stack expense splitting application built with React, Spring Boot, and PostgreSQL. Split expenses with friends and family easily!",
+  "main": "index.js",
+  "scripts": {
+    "start": "bash start.sh",
+    "start:docker": "bash start.sh",
+    "start:local": "npx concurrently \"./mvnw -f backend spring-boot:run\" \"npm --prefix frontend run dev\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spydersayor/expense-splitter.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/spydersayor/expense-splitter/issues"
+  },
+  "homepage": "https://github.com/spydersayor/expense-splitter#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
