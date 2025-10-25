@@ -4,12 +4,33 @@ import { Settlement } from '../../types';
 import toast from 'react-hot-toast';
 import { getErrorMessage } from '../../lib/utils';
 
+interface BackendSettlement {
+  id: number;
+  groupId: number;
+  fromUserId: number;
+  toUserId: number;
+  amount: number;
+  settledAt?: string;
+  createdAt?: string;
+  note?: string;
+}
+
 export function useSettlements(groupId: string) {
   return useQuery({
     queryKey: ['settlements', groupId],
     queryFn: async () => {
-      const response = await axios.get<Settlement[]>(`/api/settlements/${groupId}`);
-      return response.data;
+      console.log('Fetching settlements for group:', groupId);
+      const response = await axios.get<BackendSettlement[]>(`/api/settlements/${groupId}`);
+      console.log('Settlements fetched from backend:', response.data);
+      // Transform backend response to frontend format
+      return response.data.map(settlement => ({
+        id: settlement.id.toString(),
+        groupId: settlement.groupId.toString(),
+        fromUserId: settlement.fromUserId.toString(),
+        toUserId: settlement.toUserId.toString(),
+        amount: settlement.amount,
+        createdAt: settlement.settledAt || settlement.createdAt,
+      })) as Settlement[];
     },
     enabled: !!groupId,
   });
