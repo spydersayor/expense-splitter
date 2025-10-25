@@ -30,12 +30,14 @@ Thumbs.db
 # Logs
 *.log
 logs/
-backend/backend.log
-backend/backend.pid
+backend.*.log
+frontend.*.log
+*.dev.log
+*.dev.pid
+*.pid
 
 # Runtime data
 pids/
-*.pid
 *.seed
 *.pid.lock
 
@@ -60,8 +62,8 @@ jspm_packages/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
-.env
+# Additional temp files
+.tmp/
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache

@@ -4,26 +4,38 @@ A full-stack expense splitting application built with React, Spring Boot, and Po
 
 ![Expense Splitter](https://img.shields.io/badge/React-18.3.1-blue) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.5-green) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue) ![Docker](https://img.shields.io/badge/Docker-Ready-blue)
 
-## 🚀 Quick Start
+## 🚀 Single Command Startup
 
-### Single Command Setup
+### 🎯 **Just run one command and you're done!**
 
 **Windows:**
-```bash
+```batch
 start.bat
+```
+
+**Alternative (if Docker is already running):**
+```batch
+quick-start.bat
 ```
 
 **Linux/Mac:**
 ```bash
-chmod +x start.sh
-./start.sh
+chmod +x start.sh && ./start.sh
 ```
 
-That's it! The application will be available at:
-- **Frontend:** http://localhost:3000
-- **Backend API:** http://localhost:8080
-- **Database:** localhost:5432
-- **PgAdmin:** http://localhost:5050
+### ✨ What happens automatically:
+1. ✅ Checks Docker installation and starts it if needed
+2. ✅ Sets up environment files
+3. ✅ Builds frontend and backend containers
+4. ✅ Starts PostgreSQL database
+5. ✅ Launches PgAdmin for database management
+6. ✅ Everything ready in 2-3 minutes!
+
+### 🌐 **Access your app:**
+- **📱 Frontend:** http://localhost:3000
+- **🔧 Backend API:** http://localhost:8080
+- **🗃️ Database:** localhost:5432
+- **⚙️ PgAdmin:** http://localhost:5050 (admin@example.com / admin)
 
 ## 🌐 Live Demo
 
@@ -274,33 +286,54 @@ docker-compose up --build
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🆘 Troubleshooting
+## 🔧 Troubleshooting
+
+### 🎯 Single Command Startup Issues
+
+**⚠️ Docker Desktop not found:**
+```batch
+# The script will try to start Docker Desktop automatically
+# If it fails, manually start Docker Desktop and run:
+quick-start.bat
+```
+
+**🚫 Port conflicts (3000, 8080, 5432, 5050 in use):**
+```batch
+# Stop existing containers and retry
+docker-compose down
+start.bat
+```
+
+**🔎 Check what's running:**
+```batch
+docker-compose ps
+docker-compose logs -f
+```
+
+**🔄 Complete reset:**
+```batch
+# This removes all containers and data
+docker-compose down -v
+start.bat
+```
 
 ### Common Issues
 
 <details>
 <summary>Docker issues</summary>
 
-- **Port conflicts:** Ensure ports 3000, 8080, 5432, and 5050 are available
-- **Permission issues:** Run `chmod +x start.sh` on Linux/Mac
-- **Docker not running:** Start Docker Desktop
+- **Docker not starting:** Install Docker Desktop from https://docker.com
+- **Permission issues:** Run as Administrator on Windows
+- **Build failures:** Check internet connection for image downloads
 
 </details>
 
 <details>
-<summary>Database issues</summary>
+<summary>Application issues</summary>
 
-- **Connection refused:** Ensure PostgreSQL is running
-- **Database not found:** Create database: `createdb expense_splitter`
-- **Migration errors:** Check Flyway configuration
-
-</details>
-
-<details>
-<summary>CORS issues</summary>
-
-- **Frontend can't connect:** Check CORS_ORIGINS environment variable
-- **API calls failing:** Verify VITE_BASE_URL is correct
+- **Frontend won't load:** Wait 60 seconds for build to complete
+- **API errors:** Check backend logs: `docker-compose logs backend`
+- **Database connection:** Check database logs: `docker-compose logs db`
 
 </details>
 
