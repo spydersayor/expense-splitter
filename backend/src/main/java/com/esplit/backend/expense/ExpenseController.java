@@ -72,6 +72,10 @@ public class ExpenseController {
 
         BigDecimal totalShares = BigDecimal.ZERO;
         for (CreateExpenseRequest.ShareDto s : req.getShares()) {
+            // Skip shares with zero amount
+            if (s.getShareAmount().compareTo(BigDecimal.ZERO) == 0) {
+                continue;
+            }
             User u = userRepo.findById(s.getUserId()).orElseThrow();
             ExpenseShare share = new ExpenseShare();
             share.setExpense(e);
@@ -81,8 +85,14 @@ public class ExpenseController {
             totalShares = totalShares.add(s.getShareAmount());
         }
 
-        if (totalShares.compareTo(req.getAmount()) != 0)
-            throw new RuntimeException("Shares must equal total amount!");
+        // Use tolerance-based comparison for BigDecimal (0.01)
+        BigDecimal tolerance = new BigDecimal("0.01");
+        if (totalShares.subtract(req.getAmount()).abs().compareTo(tolerance) > 0) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST, 
+                "Shares must sum to total amount. Total shares: " + totalShares + ", Amount: " + req.getAmount()
+            );
+        }
 
         Expense saved = expenseRepo.save(e);
         return toExpenseDto(saved);

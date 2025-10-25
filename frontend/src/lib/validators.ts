@@ -31,11 +31,16 @@ export const addExpenseSchema = z.object({
   ).min(1, 'At least one share is required'),
 }).refine(
   (data) => {
+    // Filter out zero shares for validation
+    const nonZeroShares = data.shares.filter(s => s.amount > 0);
+    if (nonZeroShares.length === 0) {
+      return false;
+    }
     const total = data.shares.reduce((sum, share) => sum + share.amount, 0);
     return Math.abs(total - data.amount) < 0.01;
   },
   {
-    message: 'Shares must sum to total amount',
+    message: 'At least one person must have a share and shares must sum to total amount',
     path: ['shares'],
   }
 );

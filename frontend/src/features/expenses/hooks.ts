@@ -4,12 +4,46 @@ import { Expense } from '../../types';
 import toast from 'react-hot-toast';
 import { getErrorMessage } from '../../lib/utils';
 
+interface BackendExpense {
+  id: number;
+  groupId: number;
+  paidById: number;
+  amount: number;
+  description: string;
+  spentAt: string;
+  createdAt: string;
+  shares: Array<{
+    id: number;
+    userId: number;
+    shareAmount: number;
+  }>;
+}
+
 export function useExpenses(groupId: string) {
   return useQuery({
     queryKey: ['expenses', groupId],
     queryFn: async () => {
-      const response = await axios.get<Expense[]>(`/api/expenses/${groupId}`);
-      return response.data;
+      try {
+        console.log('Fetching expenses for group:', groupId);
+        const response = await axios.get<BackendExpense[]>(`/api/expenses/${groupId}`);
+        console.log('Expenses fetched:', response.data);
+        // Transform backend response to frontend format
+        return response.data.map(exp => ({
+          id: exp.id.toString(),
+          groupId: exp.groupId.toString(),
+          paidByUserId: exp.paidById.toString(),
+          amount: exp.amount,
+          description: exp.description,
+          createdAt: exp.createdAt,
+          shares: exp.shares.map(share => ({
+            userId: share.userId.toString(),
+            amount: share.shareAmount,
+          })),
+        })) as Expense[];
+      } catch (error) {
+        console.error('Failed to fetch expenses:', error);
+        throw error;
+      }
     },
     enabled: !!groupId,
   });
@@ -41,8 +75,15 @@ export function useAddExpense() {
         }))
       };
       
-      const response = await axios.post('/api/expenses', backendRequest);
-      return response.data;
+      console.log('Creating expense with request:', backendRequest);
+      try {
+        const response = await axios.post('/api/expenses', backendRequest);
+        console.log('Expense created successfully:', response.data);
+        return response.data;
+      } catch (error) {
+        console.error('Failed to create expense:', error);
+        throw error;
+      }
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['expenses', variables.groupId] });
