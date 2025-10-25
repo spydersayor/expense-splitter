@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,13 +21,43 @@ public class ExpenseController {
     private final GroupRepo groupRepo;
     private final UserRepo userRepo;
 
+    private ExpenseDto toExpenseDto(Expense expense) {
+        ExpenseDto dto = new ExpenseDto();
+        dto.setId(expense.getId());
+        dto.setGroupId(expense.getGroup().getId());
+        dto.setGroupName(expense.getGroup().getName());
+        dto.setPaidById(expense.getPaidBy().getId());
+        dto.setPaidByName(expense.getPaidBy().getName());
+        dto.setPaidByEmail(expense.getPaidBy().getEmail());
+        dto.setAmount(expense.getAmount());
+        dto.setDescription(expense.getDescription());
+        dto.setSpentAt(expense.getSpentAt());
+        dto.setCreatedAt(expense.getCreatedAt());
+        dto.setShares(expense.getShares().stream().map(this::toExpenseShareDto).toList());
+        return dto;
+    }
+
+    private ExpenseDto.ExpenseShareDto toExpenseShareDto(ExpenseShare share) {
+        ExpenseDto.ExpenseShareDto dto = new ExpenseDto.ExpenseShareDto();
+        dto.setId(share.getId());
+        dto.setUserId(share.getUser().getId());
+        dto.setUserName(share.getUser().getName());
+        dto.setUserEmail(share.getUser().getEmail());
+        dto.setShareAmount(share.getShareAmount());
+        return dto;
+    }
+
     @GetMapping("/{groupId}")
-    public List<Expense> getGroupExpenses(@PathVariable Long groupId) {
-        return expenseRepo.findByGroupId(groupId);
+    @Transactional(readOnly = true)
+    public List<ExpenseDto> getGroupExpenses(@PathVariable Long groupId) {
+        return expenseRepo.findByGroupId(groupId).stream()
+                .map(this::toExpenseDto)
+                .toList();
     }
 
     @PostMapping
-    public Expense createExpense(@RequestBody CreateExpenseRequest req) {
+    @Transactional
+    public ExpenseDto createExpense(@RequestBody CreateExpenseRequest req) {
     GroupEntity group = groupRepo.findById(req.getGroupId())
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Group not found"));
     User paidBy = userRepo.findById(req.getPaidById())
@@ -53,6 +84,7 @@ public class ExpenseController {
         if (totalShares.compareTo(req.getAmount()) != 0)
             throw new RuntimeException("Shares must equal total amount!");
 
-        return expenseRepo.save(e);
+        Expense saved = expenseRepo.save(e);
+        return toExpenseDto(saved);
     }
 }

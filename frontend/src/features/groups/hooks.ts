@@ -52,7 +52,9 @@ export function useAddMember() {
       return response.data;
     },
     onSuccess: (_, variables) => {
+      // Invalidate both the specific group and the groups list
       queryClient.invalidateQueries({ queryKey: ['group', variables.groupId] });
+      queryClient.invalidateQueries({ queryKey: ['groups'] });
       toast.success('Member added successfully');
     },
     onError: (error: unknown) => {
