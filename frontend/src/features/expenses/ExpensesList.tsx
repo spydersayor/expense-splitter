@@ -3,7 +3,7 @@ import { Group } from '../../types';
 import { Card, CardBody } from '../../components/ui/Card';
 import { LoadingSpinner } from '../../components/LoadingSpinner';
 import { EmptyState } from '../../components/EmptyState';
-import { formatCurrency } from '../../lib/currency';
+import { useCurrency } from '../../hooks/useCurrency';
 import { Receipt } from 'lucide-react';
 
 interface ExpensesListProps {
@@ -13,6 +13,7 @@ interface ExpensesListProps {
 
 export function ExpensesList({ groupId, group }: ExpensesListProps) {
   const { data: expenses, isLoading, error } = useExpenses(groupId);
+  const { formatAmount } = useCurrency();
 
   if (isLoading) {
     return <LoadingSpinner className="py-12" />;
@@ -78,7 +79,7 @@ export function ExpensesList({ groupId, group }: ExpensesListProps) {
                 </div>
                 <div className="text-right">
                   <p className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                    {formatCurrency(expense.amount)}
+                    {formatAmount(expense.amount)}
                   </p>
                   <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                     {expense.shares.length} {expense.shares.length === 1 ? 'person' : 'people'}

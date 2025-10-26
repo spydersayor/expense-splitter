@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast';
 import { queryClient } from '../lib/queryClient';
 import { AuthProvider } from '../features/auth/AuthContext';
 import { ErrorBoundary } from '../components/ErrorBoundary';
+import { CurrencyProvider } from '../hooks/useCurrency';
 
 interface ProvidersProps {
   children: ReactNode;
@@ -15,31 +16,33 @@ export function Providers({ children }: ProvidersProps) {
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <AuthProvider>
-            {children}
-            <Toaster
-              position="top-right"
-              toastOptions={{
-                duration: 3000,
-                style: {
-                  background: '#363636',
-                  color: '#fff',
-                },
-                success: {
-                  iconTheme: {
-                    primary: '#4ade80',
-                    secondary: '#fff',
+          <CurrencyProvider>
+            <AuthProvider>
+              {children}
+              <Toaster
+                position="top-right"
+                toastOptions={{
+                  duration: 3000,
+                  style: {
+                    background: '#363636',
+                    color: '#fff',
                   },
-                },
-                error: {
-                  iconTheme: {
-                    primary: '#ef4444',
-                    secondary: '#fff',
+                  success: {
+                    iconTheme: {
+                      primary: '#4ade80',
+                      secondary: '#fff',
+                    },
                   },
-                },
-              }}
-            />
-          </AuthProvider>
+                  error: {
+                    iconTheme: {
+                      primary: '#ef4444',
+                      secondary: '#fff',
+                    },
+                  },
+                }}
+              />
+            </AuthProvider>
+          </CurrencyProvider>
         </BrowserRouter>
       </QueryClientProvider>
     </ErrorBoundary>

@@ -3,8 +3,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../features/auth/useAuth';
 import { useLogout } from '../features/auth/useLogout';
 import { useTheme } from '../hooks/useTheme';
+import { useCurrency, Currency, CURRENCIES } from '../hooks/useCurrency';
 import { Button } from '../components/ui/Button';
-import { DollarSign, Moon, Sun, LogOut } from 'lucide-react';
+import { IndianRupee, Moon, Sun, LogOut } from 'lucide-react';
 
 interface LayoutProps {
   children: ReactNode;
@@ -16,6 +17,7 @@ export function Layout({ children }: LayoutProps) {
   const { isAuthenticated, user } = useAuth();
   const logout = useLogout();
   const { theme, toggleTheme } = useTheme();
+  const { currency, currencyInfo, setCurrency } = useCurrency();
 
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
   const isLandingPage = location.pathname === '/' && !isAuthenticated;
@@ -34,7 +36,7 @@ export function Layout({ children }: LayoutProps) {
               onClick={() => navigate('/groups')}
             >
               <div className="bg-gradient-to-br from-blue-500 to-cyan-400 p-3 rounded-xl shadow-lg shadow-blue-500/30 group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
-                <DollarSign className="h-6 w-6 text-white" />
+                <IndianRupee className="h-6 w-6 text-white" />
               </div>
               <h1 className="ml-3 text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
                 {import.meta.env.VITE_APP_NAME || 'Expense Splitter'}
@@ -42,6 +44,20 @@ export function Layout({ children }: LayoutProps) {
             </div>
 
             <div className="flex items-center space-x-4">
+              {/* Currency Selector */}
+              <select
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value as Currency)}
+                className="px-3 py-1.5 text-sm bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 hover:bg-white/20 transition-all cursor-pointer"
+                aria-label="Select currency"
+              >
+                {Object.values(CURRENCIES).map((curr) => (
+                  <option key={curr.code} value={curr.code} className="bg-slate-900 text-white">
+                    {curr.symbol} {curr.code}
+                  </option>
+                ))}
+              </select>
+
               <Button
                 variant="ghost"
                 size="sm"

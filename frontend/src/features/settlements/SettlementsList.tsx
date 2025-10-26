@@ -3,7 +3,7 @@ import { Group } from '../../types';
 import { Card, CardBody } from '../../components/ui/Card';
 import { LoadingSpinner } from '../../components/LoadingSpinner';
 import { EmptyState } from '../../components/EmptyState';
-import { formatCurrency } from '../../lib/currency';
+import { useCurrency } from '../../hooks/useCurrency';
 import { ArrowRight, Handshake, Trash2 } from 'lucide-react';
 
 interface SettlementsListProps {
@@ -14,6 +14,7 @@ interface SettlementsListProps {
 export function SettlementsList({ groupId, group }: SettlementsListProps) {
   const { data: settlements, isLoading, error } = useSettlements(groupId);
   const deleteSettlement = useDeleteSettlement();
+  const { formatAmount } = useCurrency();
 
   if (isLoading) {
     return <LoadingSpinner className="py-12" />;
@@ -70,7 +71,7 @@ export function SettlementsList({ groupId, group }: SettlementsListProps) {
                 <div className="flex items-center gap-4">
                   <div className="text-right">
                     <p className="text-lg font-semibold text-green-600 dark:text-green-400">
-                      {formatCurrency(settlement.amount)}
+                      {formatAmount(settlement.amount)}
                     </p>
                     {settlement.createdAt && (
                       <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">

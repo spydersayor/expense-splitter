@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '../../components/ui/Button';
 import { Card, CardBody } from '../../components/ui/Card';
 import { 
-  DollarSign, 
+  IndianRupee, 
   Users, 
   PieChart, 
   Zap, 
@@ -98,7 +98,7 @@ export function LandingPage() {
                 {/* Pulsing ring */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-3xl animate-pulse-ring"></div>
                 <div className="relative bg-gradient-to-br from-blue-500 to-cyan-400 p-6 rounded-3xl shadow-2xl shadow-blue-500/20 animate-float group-hover:scale-110 transition-transform duration-500">
-                  <DollarSign className="h-16 w-16 text-white" />
+                  <IndianRupee className="h-16 w-16 text-white" />
                 </div>
               </div>
             </div>
@@ -279,9 +279,9 @@ export function LandingPage() {
                       <div className="text-white/80">Active Users</div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 group">
+                  <div className="flex items-center gap-4">
                     <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-all duration-300 group-hover:scale-110">
-                      <DollarSign className="h-8 w-8 group-hover:scale-110 transition-transform duration-300" />
+                      <IndianRupee className="h-8 w-8 group-hover:scale-110 transition-transform duration-300" />
                     </div>
                     <div>
                       <div className="text-3xl font-bold animate-pulse-slow" style={{animationDelay: '0.5s'}}>$1M+</div>
@@ -336,7 +336,7 @@ export function LandingPage() {
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center mb-4 md:mb-0">
               <div className="bg-gradient-to-br from-blue-500 to-cyan-400 p-3 rounded-xl shadow-lg shadow-blue-500/30">
-                <DollarSign className="h-6 w-6 text-white" />
+                <IndianRupee className="h-6 w-6 text-white" />
               </div>
               <span className="ml-3 text-xl font-bold text-white">
                 {import.meta.env.VITE_APP_NAME || 'Expense Splitter'}

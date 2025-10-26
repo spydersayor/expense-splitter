@@ -1,7 +1,10 @@
-export function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat('en-US', {
+// This file is kept for backward compatibility
+// The main currency formatting is now done via useCurrency hook
+
+export function formatCurrency(amount: number, currencyCode: string = 'INR', locale: string = 'en-IN'): string {
+  return new Intl.NumberFormat(locale, {
     style: 'currency',
-    currency: 'USD',
+    currency: currencyCode,
   }).format(amount);
 }
 

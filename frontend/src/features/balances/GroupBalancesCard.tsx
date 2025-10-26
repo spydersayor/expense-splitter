@@ -3,7 +3,7 @@ import { useGroup } from '../groups/hooks';
 import { Card, CardBody, CardHeader } from '../../components/ui/Card';
 import { LoadingSpinner } from '../../components/LoadingSpinner';
 import { EmptyState } from '../../components/EmptyState';
-import { formatCurrency } from '../../lib/currency';
+import { useCurrency } from '../../hooks/useCurrency';
 import { Scale } from 'lucide-react';
 
 interface GroupBalancesCardProps {
@@ -13,6 +13,7 @@ interface GroupBalancesCardProps {
 export function GroupBalancesCard({ groupId }: GroupBalancesCardProps) {
   const { data: balances, isLoading: balancesLoading } = useBalances(groupId);
   const { data: group, isLoading: groupLoading } = useGroup(groupId);
+  const { formatAmount } = useCurrency();
 
   if (balancesLoading || groupLoading) {
     return <LoadingSpinner className="py-12" />;
@@ -76,7 +77,7 @@ export function GroupBalancesCard({ groupId }: GroupBalancesCardProps) {
                 }`}
               >
                 {total.balance > 0 ? '+' : ''}
-                {formatCurrency(total.balance)}
+                {formatAmount(total.balance)}
               </span>
             </div>
           ))}
