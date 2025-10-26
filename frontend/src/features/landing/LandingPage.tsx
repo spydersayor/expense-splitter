@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Button } from '../../components/ui/Button';
 import { Card, CardBody } from '../../components/ui/Card';
+import { useTheme } from '../../hooks/useTheme';
 import { 
   IndianRupee, 
   Users, 
@@ -11,10 +12,14 @@ import {
   TrendingUp,
   CheckCircle,
   ArrowRight,
-  Sparkles
+  Sparkles,
+  Moon,
+  Sun
 } from 'lucide-react';
 
 export function LandingPage() {
+  const { theme, toggleTheme } = useTheme();
+  
   const features = [
     {
       icon: <Users className="h-8 w-8" />,
@@ -64,6 +69,19 @@ export function LandingPage() {
 
   return (
     <div className="min-h-screen">
+      {/* Theme Toggle - Fixed position */}
+      <div className="fixed top-4 right-4 z-50">
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={toggleTheme}
+          aria-label="Toggle theme"
+          className="shadow-lg"
+        >
+          {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+        </Button>
+      </div>
+
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20 sm:py-32">
         {/* Animated background with geometric patterns */}
@@ -104,16 +122,16 @@ export function LandingPage() {
             </div>
             
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-6">
-              <span className="inline-block bg-gradient-to-r from-cyan-400 via-blue-400 to-blue-500 bg-clip-text text-transparent animate-gradient-x">
+              <span className="inline-block bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-600 dark:from-cyan-400 dark:via-blue-400 dark:to-blue-500 bg-clip-text text-transparent animate-gradient-x">
                 Split Expenses
               </span>
               <br />
-              <span className="inline-block text-white animate-fade-in" style={{animationDelay: '0.3s'}}>
+              <span className="inline-block text-gray-900 dark:text-white animate-fade-in" style={{animationDelay: '0.3s'}}>
                 Made Simple
               </span>
             </h1>
             
-            <p className="text-xl sm:text-2xl text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed animate-fade-in" style={{animationDelay: '0.5s'}}>
+            <p className="text-xl sm:text-2xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed animate-fade-in" style={{animationDelay: '0.5s'}}>
               Track shared expenses, split bills fairly, and settle up with friends and roommates. 
               The easiest way to manage group finances.
             </p>
@@ -139,17 +157,17 @@ export function LandingPage() {
 
             {/* Benefits badges */}
             <div className="flex flex-wrap items-center justify-center gap-4">
-              <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-                <CheckCircle className="h-5 w-5 text-cyan-400" />
-                <span className="text-sm font-medium text-white">100% Free</span>
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/80 dark:bg-white/10 backdrop-blur-sm rounded-full border border-gray-300 dark:border-white/20">
+                <CheckCircle className="h-5 w-5 text-green-600 dark:text-cyan-400" />
+                <span className="text-sm font-medium text-gray-900 dark:text-white">100% Free</span>
               </div>
-              <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-                <CheckCircle className="h-5 w-5 text-cyan-400" />
-                <span className="text-sm font-medium text-white">No Credit Card</span>
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/80 dark:bg-white/10 backdrop-blur-sm rounded-full border border-gray-300 dark:border-white/20">
+                <CheckCircle className="h-5 w-5 text-green-600 dark:text-cyan-400" />
+                <span className="text-sm font-medium text-gray-900 dark:text-white">No Credit Card</span>
               </div>
-              <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-                <Sparkles className="h-5 w-5 text-blue-400" />
-                <span className="text-sm font-medium text-white">Instant Setup</span>
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/80 dark:bg-white/10 backdrop-blur-sm rounded-full border border-gray-300 dark:border-white/20">
+                <Sparkles className="h-5 w-5 text-yellow-600 dark:text-blue-400" />
+                <span className="text-sm font-medium text-gray-900 dark:text-white">Instant Setup</span>
               </div>
             </div>
           </div>
@@ -157,7 +175,7 @@ export function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-slate-900/50 backdrop-blur-xl relative overflow-hidden">
+      <section className="py-20 bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl relative overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-0 left-0 w-64 h-64 bg-blue-600/10 rounded-full filter blur-3xl animate-pulse-slow"></div>
         <div className="absolute bottom-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full filter blur-3xl animate-pulse-slow" style={{animationDelay: '1.5s'}}></div>
@@ -165,11 +183,11 @@ export function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-16 animate-slide-up">
             <h2 className="text-4xl sm:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-cyan-400 dark:to-blue-500 bg-clip-text text-transparent">
                 Everything You Need
               </span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
               Powerful features designed to make splitting expenses effortless and transparent
             </p>
           </div>
@@ -189,10 +207,10 @@ export function LandingPage() {
                     <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${feature.color} text-white mb-6 shadow-lg group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500`}>
                       {feature.icon}
                     </div>
-                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-blue-500 group-hover:bg-clip-text transition-all duration-300">
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-cyan-600 dark:group-hover:from-cyan-400 dark:group-hover:to-blue-500 group-hover:bg-clip-text transition-all duration-300">
                       {feature.title}
                     </h3>
-                    <p className="text-gray-300 leading-relaxed">
+                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                       {feature.description}
                     </p>
                   </div>
@@ -208,11 +226,11 @@ export function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl sm:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-cyan-400 dark:to-blue-500 bg-clip-text text-transparent">
                 How It Works
               </span>
             </h2>
-            <p className="text-xl text-gray-300">
+            <p className="text-xl text-gray-700 dark:text-gray-300">
               Get started in three simple steps
             </p>
           </div>
@@ -227,10 +245,10 @@ export function LandingPage() {
                 <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 text-white text-3xl font-bold mb-6 shadow-2xl shadow-blue-500/30">
                   {item.step}
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-3">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
                   {item.title}
                 </h3>
-                <p className="text-gray-300 leading-relaxed">
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                   {item.description}
                 </p>
               </div>
@@ -309,11 +327,11 @@ export function LandingPage() {
         <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center animate-slide-up relative">
           <h2 className="text-4xl sm:text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-cyan-400 dark:to-blue-500 bg-clip-text text-transparent">
               Ready to Simplify Your Expenses?
             </span>
           </h2>
-          <p className="text-xl text-gray-300 mb-8">
+          <p className="text-xl text-gray-700 dark:text-gray-300 mb-8">
             Join thousands of users who have already simplified their group finances
           </p>
           <Link to="/register">
@@ -324,27 +342,27 @@ export function LandingPage() {
               </span>
             </Button>
           </Link>
-          <p className="text-sm text-gray-400 mt-4">
+          <p className="text-sm text-gray-600 dark:text-gray-400 mt-4">
             No credit card required • Free forever
           </p>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-950 border-t border-white/10 text-gray-400 py-12">
+      <footer className="bg-gray-100 dark:bg-slate-950 border-t border-gray-300 dark:border-white/10 text-gray-600 dark:text-gray-400 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center mb-4 md:mb-0">
               <div className="bg-gradient-to-br from-blue-500 to-cyan-400 p-3 rounded-xl shadow-lg shadow-blue-500/30">
                 <IndianRupee className="h-6 w-6 text-white" />
               </div>
-              <span className="ml-3 text-xl font-bold text-white">
+              <span className="ml-3 text-xl font-bold text-gray-900 dark:text-white">
                 {import.meta.env.VITE_APP_NAME || 'Expense Splitter'}
               </span>
             </div>
             <div className="text-center md:text-right">
               <p>&copy; 2024 Expense Splitter. All rights reserved.</p>
-              <p className="text-sm mt-1 text-gray-500">Made with ❤️ for better financial management</p>
+              <p className="text-sm mt-1 text-gray-600 dark:text-gray-500">Made with ❤️ for better financial management</p>
             </div>
           </div>
         </div>
