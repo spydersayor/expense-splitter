@@ -48,30 +48,36 @@ export function ExpensesList({ groupId, group }: ExpensesListProps) {
   };
 
   return (
-    <Card>
+    <Card className="animate-slide-up">
       <CardBody>
         <div className="space-y-3">
-          {expenses.map((expense) => (
+          {expenses.map((expense, index) => (
             <div
               key={expense.id}
-              className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
+              className="p-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-102 border border-gray-200/50 dark:border-gray-600/50 animate-fade-in"
+              style={{animationDelay: `${index * 0.05}s`}}
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <h4 className="font-medium text-gray-900 dark:text-gray-100">
-                    {expense.description}
-                  </h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                    Paid by {getMemberName(expense.paidByUserId)}
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center shadow-lg">
+                      <Receipt className="h-5 w-5 text-white" />
+                    </div>
+                    <h4 className="font-semibold text-gray-900 dark:text-gray-100 text-lg">
+                      {expense.description}
+                    </h4>
+                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 ml-13">
+                    Paid by <span className="font-medium text-blue-600 dark:text-blue-400">{getMemberName(expense.paidByUserId)}</span>
                   </p>
                   {expense.createdAt && (
-                    <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                    <p className="text-xs text-gray-500 dark:text-gray-500 mt-1 ml-13">
                       {new Date(expense.createdAt).toLocaleDateString()}
                     </p>
                   )}
                 </div>
                 <div className="text-right">
-                  <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                  <p className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                     {formatCurrency(expense.amount)}
                   </p>
                   <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">

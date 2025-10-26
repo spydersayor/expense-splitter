@@ -6,7 +6,7 @@
   "scripts": {
     "start": "bash start.sh",
     "start:docker": "bash start.sh",
-  "start:local": "npx concurrently \"./mvnw -f backend spring-boot:run -Dspring-boot.run.profiles=dev\" \"npm --prefix frontend run dev\"",
+    "start:local": "npx concurrently \"./mvnw -f backend spring-boot:run -Dspring-boot.run.profiles=dev\" \"npm --prefix frontend run dev\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

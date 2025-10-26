@@ -71,3 +71,21 @@ export function useAddSettlement() {
     },
   });
 }
+
+export function useDeleteSettlement() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, groupId }: { id: string; groupId: string }) => {
+      await axios.delete(`/api/settlements/${id}`);
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['settlements', variables.groupId] });
+      queryClient.invalidateQueries({ queryKey: ['balances', variables.groupId] });
+      toast.success('Settlement deleted successfully');
+    },
+    onError: (error: unknown) => {
+      toast.error(getErrorMessage(error) || 'Failed to delete settlement');
+    },
+  });
+}

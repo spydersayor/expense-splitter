@@ -18,24 +18,25 @@ export function Layout({ children }: LayoutProps) {
   const { theme, toggleTheme } = useTheme();
 
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+  const isLandingPage = location.pathname === '/' && !isAuthenticated;
 
-  if (isAuthPage) {
+  if (isAuthPage || isLandingPage) {
     return <>{children}</>;
   }
 
   return (
     <div className="min-h-screen">
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50 shadow-lg">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div
               className="flex items-center cursor-pointer group"
               onClick={() => navigate('/groups')}
             >
-              <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-3 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
+              <div className="bg-gradient-to-br from-blue-500 to-cyan-400 p-3 rounded-xl shadow-lg shadow-blue-500/30 group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
                 <DollarSign className="h-6 w-6 text-white" />
               </div>
-              <h1 className="ml-3 text-xl font-bold gradient-text">
+              <h1 className="ml-3 text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
                 {import.meta.env.VITE_APP_NAME || 'Expense Splitter'}
               </h1>
             </div>
@@ -52,7 +53,7 @@ export function Layout({ children }: LayoutProps) {
 
               {isAuthenticated && (
                 <>
-                  <span className="text-sm text-gray-600 dark:text-gray-400">
+                  <span className="text-sm text-gray-300">
                     {user?.name || user?.email}
                   </span>
                   <Button
@@ -60,7 +61,7 @@ export function Layout({ children }: LayoutProps) {
                     size="sm"
                     onClick={() => {
                       logout();
-                      navigate('/login');
+                      navigate('/');
                     }}
                   >
                     <LogOut className="mr-2 h-4 w-4" />

@@ -60,20 +60,29 @@ export function GroupsListPage() {
           }
         />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {groups.map((group) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {groups.map((group, index) => (
             <Card
               key={group.id}
-              className="cursor-pointer hover:shadow-lg transition-shadow"
+              className="cursor-pointer hover:scale-105 hover:-translate-y-1 transition-all duration-300 group animate-slide-up"
+              style={{animationDelay: `${index * 0.1}s`}}
               onClick={() => navigate(`/groups/${group.id}`)}
             >
-              <CardBody>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                  {group.name}
-                </h3>
-                <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                  <Users className="mr-2 h-4 w-4" />
-                  {group.members.length} {group.members.length === 1 ? 'member' : 'members'}
+              <CardBody className="relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500"></div>
+                <div className="relative">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-3 rounded-xl shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
+                      <Users className="h-6 w-6 text-white" />
+                    </div>
+                    <span className="text-sm font-medium px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full">
+                      {group.members.length} {group.members.length === 1 ? 'member' : 'members'}
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    {group.name}
+                  </h3>
+                  <div className="h-1 w-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full group-hover:w-full transition-all duration-500"></div>
                 </div>
               </CardBody>
             </Card>

@@ -4,6 +4,8 @@ import { RequireAuth } from './guard';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { LoginPage } from '../features/auth/LoginPage';
 import { RegisterPage } from '../features/auth/RegisterPage';
+import { LandingPage } from '../features/landing/LandingPage';
+import { useAuth } from '../features/auth/useAuth';
 
 const GroupsListPage = lazy(() =>
   import('../features/groups/GroupsListPage').then((m) => ({ default: m.GroupsListPage }))
@@ -20,10 +22,16 @@ function LoadingFallback() {
   );
 }
 
+function RootRedirect() {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? <Navigate to="/groups" replace /> : <LandingPage />;
+}
+
 export function AppRoutes() {
   return (
     <Suspense fallback={<LoadingFallback />}>
       <Routes>
+        <Route path="/" element={<RootRedirect />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
@@ -44,8 +52,6 @@ export function AppRoutes() {
             </RequireAuth>
           }
         />
-
-        <Route path="/" element={<Navigate to="/groups" replace />} />
 
         <Route
           path="*"

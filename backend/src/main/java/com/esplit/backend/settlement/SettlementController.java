@@ -65,4 +65,12 @@ public class SettlementController {
         Settlement saved = settlementRepo.save(settlement);
         return toSettlementDto(saved);
     }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void delete(@PathVariable Long id) {
+        Settlement settlement = settlementRepo.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Settlement not found"));
+        settlementRepo.delete(settlement);
+    }
 }

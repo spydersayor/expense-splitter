@@ -1,10 +1,10 @@
-import { useSettlements } from './hooks';
+import { useSettlements, useDeleteSettlement } from './hooks';
 import { Group } from '../../types';
 import { Card, CardBody } from '../../components/ui/Card';
 import { LoadingSpinner } from '../../components/LoadingSpinner';
 import { EmptyState } from '../../components/EmptyState';
 import { formatCurrency } from '../../lib/currency';
-import { ArrowRight, Handshake } from 'lucide-react';
+import { ArrowRight, Handshake, Trash2 } from 'lucide-react';
 
 interface SettlementsListProps {
   groupId: string;
@@ -13,6 +13,7 @@ interface SettlementsListProps {
 
 export function SettlementsList({ groupId, group }: SettlementsListProps) {
   const { data: settlements, isLoading, error } = useSettlements(groupId);
+  const deleteSettlement = useDeleteSettlement();
 
   if (isLoading) {
     return <LoadingSpinner className="py-12" />;
@@ -66,15 +67,25 @@ export function SettlementsList({ groupId, group }: SettlementsListProps) {
                     {getMemberName(settlement.toUserId)}
                   </span>
                 </div>
-                <div className="text-right">
-                  <p className="text-lg font-semibold text-green-600 dark:text-green-400">
-                    {formatCurrency(settlement.amount)}
-                  </p>
-                  {settlement.createdAt && (
-                    <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-                      {new Date(settlement.createdAt).toLocaleDateString()}
+                <div className="flex items-center gap-4">
+                  <div className="text-right">
+                    <p className="text-lg font-semibold text-green-600 dark:text-green-400">
+                      {formatCurrency(settlement.amount)}
                     </p>
-                  )}
+                    {settlement.createdAt && (
+                      <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                        {new Date(settlement.createdAt).toLocaleDateString()}
+                      </p>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => deleteSettlement.mutate({ id: settlement.id, groupId })}
+                    disabled={deleteSettlement.isPending}
+                    className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    title="Delete settlement"
+                  >
+                    <Trash2 size={18} />
+                  </button>
                 </div>
               </div>
             </div>

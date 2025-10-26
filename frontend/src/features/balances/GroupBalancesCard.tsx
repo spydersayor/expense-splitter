@@ -51,16 +51,17 @@ export function GroupBalancesCard({ groupId }: GroupBalancesCardProps) {
   };
 
   return (
-    <Card>
+    <Card className="animate-slide-up" style={{animationDelay: '0.1s'}}>
       <CardHeader>
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Balances</h3>
+        <h3 className="text-xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">Balances</h3>
       </CardHeader>
       <CardBody>
         <div className="space-y-3">
-          {balances.totals.map((total) => (
+          {balances.totals.map((total, index) => (
             <div
               key={total.userId}
-              className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+              className="flex items-center justify-between p-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-xl hover:shadow-md transition-all duration-300 border border-gray-200/50 dark:border-gray-600/50 animate-fade-in"
+              style={{animationDelay: `${index * 0.05}s`}}
             >
               <span className="font-medium text-gray-900 dark:text-gray-100">
                 {getMemberName(total.userId)}
@@ -80,9 +81,9 @@ export function GroupBalancesCard({ groupId }: GroupBalancesCardProps) {
             </div>
           ))}
         </div>
-        <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+        <div className="mt-4 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl border border-blue-200/50 dark:border-blue-700/50 animate-fade-in" style={{animationDelay: '0.3s'}}>
           <p className="text-sm text-blue-800 dark:text-blue-200">
-            <strong>Tip:</strong> Positive balances indicate money owed to the person. Negative balances indicate money the person owes.
+            <strong>💡 Tip:</strong> Positive balances indicate money owed to the person. Negative balances indicate money the person owes.
           </p>
         </div>
       </CardBody>
