@@ -28,7 +28,7 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <div className="min-h-screen">
-      <header className="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/20">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-slate-950/80 backdrop-blur-xl border-b border-gray-200 dark:border-white/10 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div
@@ -38,7 +38,7 @@ export function Layout({ children }: LayoutProps) {
               <div className="bg-gradient-to-br from-blue-500 to-cyan-400 p-3 rounded-xl shadow-lg shadow-blue-500/30 group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
                 <IndianRupee className="h-6 w-6 text-white" />
               </div>
-              <h1 className="ml-3 text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              <h1 className="ml-3 text-xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-cyan-400 dark:to-blue-500 bg-clip-text text-transparent">
                 {import.meta.env.VITE_APP_NAME || 'Expense Splitter'}
               </h1>
             </div>
@@ -48,11 +48,11 @@ export function Layout({ children }: LayoutProps) {
               <select
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value as Currency)}
-                className="px-3 py-1.5 text-sm bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 hover:bg-white/20 transition-all cursor-pointer"
+                className="px-3 py-1.5 text-sm bg-white dark:bg-white/10 backdrop-blur-sm text-gray-900 dark:text-white border border-gray-300 dark:border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 hover:bg-gray-50 dark:hover:bg-white/20 transition-all cursor-pointer"
                 aria-label="Select currency"
               >
                 {Object.values(CURRENCIES).map((curr) => (
-                  <option key={curr.code} value={curr.code} className="bg-slate-900 text-white">
+                  <option key={curr.code} value={curr.code} className="bg-white dark:bg-slate-900 text-gray-900 dark:text-white">
                     {curr.symbol} {curr.code}
                   </option>
                 ))}
@@ -69,7 +69,7 @@ export function Layout({ children }: LayoutProps) {
 
               {isAuthenticated && (
                 <>
-                  <span className="text-sm text-gray-300">
+                  <span className="text-sm text-gray-700 dark:text-gray-300">
                     {user?.name || user?.email}
                   </span>
                   <Button

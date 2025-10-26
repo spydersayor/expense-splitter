@@ -55,7 +55,7 @@ export function ExpensesList({ groupId, group }: ExpensesListProps) {
           {expenses.map((expense, index) => (
             <div
               key={expense.id}
-              className="p-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-102 border border-gray-200/50 dark:border-gray-600/50 animate-fade-in"
+              className="p-4 bg-gradient-to-br from-white to-gray-50 dark:from-gray-700 dark:to-gray-800 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-102 border border-gray-200 dark:border-gray-600/50 animate-fade-in"
               style={{animationDelay: `${index * 0.05}s`}}
             >
               <div className="flex items-start justify-between">
@@ -64,7 +64,7 @@ export function ExpensesList({ groupId, group }: ExpensesListProps) {
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center shadow-lg">
                       <Receipt className="h-5 w-5 text-white" />
                     </div>
-                    <h4 className="font-semibold text-gray-900 dark:text-gray-100 text-lg">
+                    <h4 className="font-semibold text-gray-900 dark:text-white text-lg">
                       {expense.description}
                     </h4>
                   </div>

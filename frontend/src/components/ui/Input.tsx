@@ -21,9 +21,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           id={inputId}
           className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed backdrop-blur-sm ${
             error
-              ? 'border-red-500 focus:ring-red-500 bg-red-50/50 dark:bg-red-950/50'
-              : 'border-gray-200/50 dark:border-gray-600/50 focus:ring-blue-500 hover:border-gray-300/50 dark:hover:border-gray-500/50'
-          } bg-white/70 dark:bg-gray-800/70 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 shadow-sm hover:shadow-md focus:shadow-lg ${className}`}
+              ? 'border-red-500 focus:ring-red-500 bg-red-50 dark:bg-red-950/50'
+              : 'border-gray-300 dark:border-gray-600/50 focus:ring-blue-500 hover:border-gray-400 dark:hover:border-gray-500/50'
+          } bg-white dark:bg-gray-800/70 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 shadow-sm hover:shadow-md focus:shadow-lg ${className}`}
           aria-invalid={error ? 'true' : 'false'}
           aria-describedby={error ? `${inputId}-error` : undefined}
           {...props}

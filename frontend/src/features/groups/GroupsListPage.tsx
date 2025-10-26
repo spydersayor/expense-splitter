@@ -79,7 +79,7 @@ export function GroupsListPage() {
                       {group.members.length} {group.members.length === 1 ? 'member' : 'members'}
                     </span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                     {group.name}
                   </h3>
                   <div className="h-1 w-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full group-hover:w-full transition-all duration-500"></div>

@@ -11,9 +11,9 @@ export function PageHeader({ title, description, action }: PageHeaderProps) {
     <div className="mb-8 animate-slide-up">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">{title}</h1>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-cyan-400 dark:to-blue-500 bg-clip-text text-transparent">{title}</h1>
           {description && (
-            <p className="mt-2 text-lg text-gray-300">{description}</p>
+            <p className="mt-2 text-lg text-gray-600 dark:text-gray-300">{description}</p>
           )}
         </div>
         {action && <div className="animate-fade-in" style={{animationDelay: '0.2s'}}>{action}</div>}

@@ -6,8 +6,8 @@
   :root {
     color-scheme: light;
     --gradient-bg: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
-    --glass-bg: rgba(255, 255, 255, 0.1);
-    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-bg: rgba(255, 255, 255, 0.8);
+    --glass-border: rgba(0, 0, 0, 0.1);
   }
 
   .dark {
@@ -17,10 +17,9 @@
     --glass-border: rgba(255, 255, 255, 0.1);
   }
 
-
+  /* Light mode */
   body {
-    @apply bg-slate-950 text-gray-100;
-    background: linear-gradient(135deg, #0a0f1e 0%, #1a1f35 50%, #0f1729 100%);
+    @apply bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 text-gray-900;
     font-feature-settings: 'rlig' 1, 'calt' 1;
     min-height: 100vh;
     background-attachment: fixed;
@@ -37,6 +36,12 @@
     background-size: 50px 50px;
     pointer-events: none;
     z-index: 0;
+  }
+
+  /* Dark mode */
+  .dark body {
+    @apply bg-slate-950 text-gray-100;
+    background: linear-gradient(135deg, #0a0f1e 0%, #1a1f35 50%, #0f1729 100%);
   }
 
   /* Smooth scrolling */
